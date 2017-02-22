@@ -19,6 +19,18 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/elixir_data_dog](https://hexdocs.pm/elixir_data_dog).
 
+# Configuration
+
+Provide the following variables in your `config.exs`:
+
+```elixir
+config :elixir_data_dog,
+  datadog_port:      8125,
+  datadog_host:      "localhost",
+  datadog_namespace: "YOUR_APP_NAME"
+
+```
+
 ## Usage
 
 ```elixir

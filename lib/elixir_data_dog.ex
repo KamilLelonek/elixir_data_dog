@@ -1,7 +1,7 @@
 defmodule ElixirDataDog do
-  @datadog_port      Application.get_env(:elixir_data_dog, :datadog_port)
-  @datadog_host      Application.get_env(:elixir_data_dog, :datadog_host)
-  @datadog_namespace Application.get_env(:elixir_data_dog, :datadog_namespace)
+  def datadog_port,      do: Application.get_env(:elixir_data_dog, :datadog_port)
+  def datadog_host,      do: Application.get_env(:elixir_data_dog, :datadog_host)
+  def datadog_namespace, do: Application.get_env(:elixir_data_dog, :datadog_namespace)
 
   def event(text) do
     text
@@ -10,7 +10,7 @@ defmodule ElixirDataDog do
   end
 
   defp format_event(text),
-    do: "_e{#{String.length(@datadog_namespace)},#{String.length(text)}}:#{@datadog_namespace}|#{text}"
+    do: "_e{#{String.length(datadog_namespace())},#{String.length(text)}}:#{datadog_namespace()}|#{text}"
 
   def increment(stat),
     do: count(stat, 1)
@@ -53,7 +53,7 @@ defmodule ElixirDataDog do
   end
 
   defp format_stats(stat, delta, type),
-    do: "#{@datadog_namespace}.#{format_stat(stat)}:#{delta}|#{type}"
+    do: "#{datadog_namespace()}.#{format_stat(stat)}:#{delta}|#{type}"
 
   defp format_stat(stat),
     do: String.replace stat, ~r/[:|@]/, "_"
@@ -68,8 +68,8 @@ defmodule ElixirDataDog do
 
     :gen_udp.send(
       socket,
-      String.to_char_list(@datadog_host),
-      @datadog_port,
+      String.to_char_list(datadog_host()),
+      datadog_port(),
       String.to_char_list(message)
     )
 
