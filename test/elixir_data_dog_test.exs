@@ -3,6 +3,7 @@ defmodule ElixirDataDogTest do
 
   @datadog_port      Application.get_env(:elixir_data_dog, :datadog_port)
   @datadog_namespace Application.get_env(:elixir_data_dog, :datadog_namespace)
+  @counter           "foobar"
 
   setup do
     {:ok, listener} = :gen_udp.open(@datadog_port)
@@ -15,81 +16,73 @@ defmodule ElixirDataDogTest do
   end
 
   test "increment" do
-    counter = "foobar"
-    message = "#{@datadog_namespace}.#{counter}:1|c" |> String.to_char_list()
+    message = "#{@datadog_namespace}.#{@counter}:1|c" |> String.to_char_list()
 
-    ElixirDataDog.increment(counter)
+    ElixirDataDog.increment(@counter)
 
     assert_receive_message(message)
   end
 
   test "decrement" do
-    counter = "foobar"
-    message = "#{@datadog_namespace}.#{counter}:-1|c" |> String.to_char_list()
+    message = "#{@datadog_namespace}.#{@counter}:-1|c" |> String.to_char_list()
 
-    ElixirDataDog.decrement(counter)
+    ElixirDataDog.decrement(@counter)
 
     assert_receive_message(message)
   end
 
   test "count" do
-    counter = "foobar"
     value   = 2
-    message = "#{@datadog_namespace}.#{counter}:#{value}|c" |> String.to_char_list()
+    message = "#{@datadog_namespace}.#{@counter}:#{value}|c" |> String.to_char_list()
 
-    ElixirDataDog.count(counter, value)
+    ElixirDataDog.count(@counter, value)
 
     assert_receive_message(message)
   end
 
   test "gauge" do
-    counter = "foobar"
     value   = 4
-    message = "#{@datadog_namespace}.#{counter}:#{value}|g" |> String.to_char_list()
+    message = "#{@datadog_namespace}.#{@counter}:#{value}|g" |> String.to_char_list()
 
-    ElixirDataDog.gauge(counter, 3)
-    ElixirDataDog.gauge(counter, value)
+    ElixirDataDog.gauge(@counter, 3)
+    ElixirDataDog.gauge(@counter, value)
 
     assert_receive_message(message)
   end
 
   test "histogram" do
-    counter = "foobar"
     value   = 500
-    message = "#{@datadog_namespace}.#{counter}:#{value}|h" |> String.to_char_list()
+    message = "#{@datadog_namespace}.#{@counter}:#{value}|h" |> String.to_char_list()
 
-    ElixirDataDog.histogram(counter, value)
+    ElixirDataDog.histogram(@counter, value)
 
     assert_receive_message(message)
   end
 
   test "set" do
-    counter = "foobar"
     value   = 600
-    message = "#{@datadog_namespace}.#{counter}:#{value}|s" |> String.to_char_list()
+    message = "#{@datadog_namespace}.#{@counter}:#{value}|s" |> String.to_char_list()
 
-    ElixirDataDog.set(counter, value)
+    ElixirDataDog.set(@counter, value)
 
     assert_receive_message(message)
   end
 
   test "timing" do
-    counter = "foobar"
     value   = 700
-    message = "#{@datadog_namespace}.#{counter}:#{value}|ms" |> String.to_char_list()
+    message = "#{@datadog_namespace}.#{@counter}:#{value}|ms" |> String.to_char_list()
 
-    ElixirDataDog.timing(counter, value)
+    ElixirDataDog.timing(@counter, value)
 
     assert_receive_message(message)
   end
 
   test "time" do
-    counter = "foobar"
-    value   = 1
-    message = "#{@datadog_namespace}.#{counter}:#{value}|ms" |> String.to_char_list()
+    value   = 0
+    message = "#{@datadog_namespace}.#{@counter}:#{value}|ms" |> String.to_char_list()
 
     require ElixirDataDog
-    ElixirDataDog.time(counter) do
+    ElixirDataDog.time(@counter) do
        :timer.sleep(value)
        "test"
      end
@@ -98,10 +91,9 @@ defmodule ElixirDataDogTest do
   end
 
   test "event" do
-    counter = "foobar"
-    message = "_e{15,6}:#{@datadog_namespace}|#{counter}" |> String.to_char_list()
+    message = "_e{15,6}:#{@datadog_namespace}|#{@counter}" |> String.to_char_list()
 
-    ElixirDataDog.event(counter)
+    ElixirDataDog.event(@counter)
 
     assert_receive_message(message)
   end
