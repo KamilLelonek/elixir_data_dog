@@ -1,5 +1,7 @@
 # elixir_data_dog
 
+[![Build Status](https://travis-ci.org/KamilLelonek/elixir_data_dog.svg?branch=master)](https://travis-ci.org/KamilLelonek/elixir_data_dog)
+
 A simple library for sending metrics to DataDog
 
 ## Installation
