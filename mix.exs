@@ -34,13 +34,13 @@ defmodule ElixirDataDog.Mixfile do
 
   defp package do
     [
-     name:        :ex_data_dog,
+     name:        :elixir_data_dog,
      files:       ["lib", "config", "mix.exs", "README.md"],
      maintainers: ["Kamil Lelonek"],
      licenses:    ["Apache 2.0"],
      links: %{
        "GitHub" => "https://github.com/KamilLelonek/elixir_data_dog",
-       "Docs"   => "https://hexdocs.pm/ex_data_dog/"
+       "Docs"   => "https://hexdocs.pm/elixir_data_dog/"
      }
     ]
   end
