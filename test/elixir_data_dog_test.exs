@@ -80,12 +80,14 @@ defmodule ElixirDataDogTest do
   test "time" do
     value   = 0
     message = "#{@datadog_namespace}.#{@counter}:#{value}|ms" |> String.to_char_list()
+    result  = "test"
 
     require ElixirDataDog
-    ElixirDataDog.time(@counter) do
+
+    assert ^result = (ElixirDataDog.time(@counter) do
        :timer.sleep(value)
-       "test"
-     end
+       result
+     end)
 
     assert_receive_message(message)
   end

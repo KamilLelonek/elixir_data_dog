@@ -37,9 +37,11 @@ defmodule ElixirDataDog do
     quote do
       function = fn -> unquote do_block[:do] end
 
-      {elapsed, _result} = :timer.tc(ElixirDataDog, :_time_apply, [function])
+      {elapsed, result} = :timer.tc(ElixirDataDog, :_time_apply, [function])
 
       ElixirDataDog.timing(unquote(stat), trunc(elapsed / 1000))
+
+      result
     end
   end
 
