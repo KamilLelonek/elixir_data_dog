@@ -33,19 +33,19 @@ config :elixir_data_dog,
 
 ## Usage
 
-### Used to increment a counter of events.
+### Increments a counter of events.
 
 ```elixir
 ElixirDataDog.increment("page.views")
 ```
 
-### Used to decrement a counter of events.
+### Decrements a counter of events.
 
 ```elixir
 ElixirDataDog.decrement("page.logins")
 ```
 
-### Submit the number of events that occurred during the check interval.
+### Submits the number of events that occurred during the check interval.
 
 ```elixir
 ElixirDataDog.count("page.visits", 10)
@@ -57,19 +57,19 @@ ElixirDataDog.count("page.visits", 10)
 ElixirDataDog.gauge("users.online", 123)
 ```
 
-### Used to track the statistical distribution of a set of values.
+### Tracks the statistical distribution of a set of values.
 
 ```elixir
 ElixirDataDog.histogram("file.upload.size", 1234)
 ```
 
-###
+### Tracks the time of executing an action.
 
 ```elixir
 ElixirDataDog.timing("file.download.time", 1000)
 ```
 
-###
+### Measures the time of block execution.
 
 ```elixir
 result = ElixirDataDog.time("page.render") do
@@ -77,14 +77,14 @@ result = ElixirDataDog.time("page.render") do
 end
 ```
 
-### Used count the number of unique elements in a group.
+### Counts the number of unique elements in a group.
 
 ```elixir
 ElixirDataDog.set("users", "John Doe")
 ```
 
-###
+### Logs a particular event.
 
 ```elixir
-ElixirDataDog.event("An error occured!", "The server returned 500.")
+ElixirDataDog.event("The server returned 500.")
 ```
