@@ -4,6 +4,7 @@ defmodule ElixirDataDogTest do
   @datadog_port      Application.get_env(:elixir_data_dog, :datadog_port)
   @datadog_namespace Application.get_env(:elixir_data_dog, :datadog_namespace)
   @counter           "foobar"
+  @tags              ~w(tag1 tag2)
 
   setup do
     {:ok, listener} = :gen_udp.open(@datadog_port)
@@ -98,6 +99,16 @@ defmodule ElixirDataDogTest do
     ElixirDataDog.event(@counter)
 
     assert_receive_message(message)
+  end
+
+  describe "tags" do
+    test "should allow to send tags" do
+      message = "_e{15,6}:#{@datadog_namespace}|#{@counter}|##{Enum.join(@tags, ",")}" |> String.to_char_list()
+
+      ElixirDataDog.event(@counter, tags: @tags)
+
+      assert_receive_message(message)
+    end
   end
 
   defp assert_receive_message(message),

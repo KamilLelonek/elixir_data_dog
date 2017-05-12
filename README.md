@@ -88,3 +88,11 @@ ElixirDataDog.set("users", "John Doe")
 ```elixir
 ElixirDataDog.event("The server returned 500.")
 ```
+
+### Tags
+
+For each function you can provide additional options with tags.
+
+```elixir
+ElixirDataDog.event("The server returned 500.", tags: ~w(tag1 tag2))
+```
